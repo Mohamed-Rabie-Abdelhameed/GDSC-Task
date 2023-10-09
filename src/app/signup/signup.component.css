@@ -1,0 +1,15 @@
+#bg {
+  background-image: url("/assets/images/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+/* *{
+  border: 1px solid red;
+} */
+
+@media (max-width: 768px) {
+  #bg {
+    background-image: url("/assets/images/bg-mobile.png");
+  }
+}
