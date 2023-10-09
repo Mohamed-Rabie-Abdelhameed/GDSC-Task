@@ -4,7 +4,7 @@
 >
   <div class="flex-column lg:flex gap-16">
     <div
-      class="flex-auto lg:flex-1 p-4 lg:w-1/2 flex items-center justify-center"
+      class="flex-auto lg:flex-1 p-2 lg:p-4 lg:w-1/2 flex items-center justify-center"
     >
       <div class="text-center lg:text-start">
         <h1 class="text-white text-3xl lg:text-5xl lg:max-w-4xl font-bold">
@@ -17,7 +17,7 @@
         </p>
       </div>
     </div>
-    <div class="flex-auto p-4 lg:flex-1 lg:w-1/2 mt-6 lg:mt-0">
+    <div class="flex-auto p-2 lg:p-4 lg:flex-1 lg:w-1/2 mt-6 lg:mt-0">
       <div class="bg-blue mb-6 lg:mb-4 p-4 rounded-lg shadow-lg">
         <h2 class="text-white text-md lg:text-xl font-semibold text-center">
           Try it free 7 days
@@ -27,31 +27,140 @@
         </h2>
       </div>
       <div class="bg-white rounded-lg shadow-lg px-4 py-8 lg:p-10">
-        <form>
+        <form #signupForm="ngForm" (ngSubmit)="submitForm(signupForm)">
           <div class="flex flex-col">
-            <input
-              type="text"
-              class="border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm"
-              placeholder="First Name"
-            />
-            <input
-              type="text"
-              class="border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm mt-4"
-              placeholder="Last Name"
-            />
-            <input
-              type="text"
-              class="border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm mt-4"
-              placeholder="Email Address"
-            />
-            <input
-              type="text"
-              class="border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm mt-4"
-              placeholder="Password"
-            />
+            <div class="relative">
+              <input
+                type="text"
+                class="w-full border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm"
+                placeholder="First Name"
+                name="firstName"
+                ngModel
+                required
+                #firstName="ngModel"
+              />
+
+              <div
+                *ngIf="
+                  firstName.invalid && (firstName.dirty || firstName.touched)
+                "
+              >
+                <img
+                  src="assets/images/error.svg"
+                  alt=""
+                  class="w-6 h-6 absolute right-0 top-0 mt-4 mr-4"
+                />
+                <div
+                  class="text-red text-sm mt-1 text-right"
+                  *ngIf="firstName.errors && firstName.errors['required']"
+                >
+                  First Name cannot be empty
+                </div>
+              </div>
+            </div>
+
+            <div class="relative">
+              <input
+                type="text"
+                class="w-full border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm mt-4"
+                placeholder="Last Name"
+                name="lastName"
+                ngModel
+                required
+                #lastName="ngModel"
+              />
+              <div
+                *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+              >
+                <img
+                  src="assets/images/error.svg"
+                  alt=""
+                  class="w-6 h-6 absolute right-0 top-0 mt-8 mr-4"
+                />
+                <div
+                  class="text-red text-sm mt-1 text-right"
+                  *ngIf="lastName.errors && lastName.errors['required']"
+                >
+                  Last Name cannot be empty
+                </div>
+              </div>
+            </div>
+
+            <div class="relative">
+              <input
+                type="email"
+                class="w-full border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm mt-4"
+                placeholder="Email Address"
+                name="email"
+                ngModel
+                required
+                #email="ngModel"
+                email
+              />
+              <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                <img
+                  src="assets/images/error.svg"
+                  alt=""
+                  class="w-6 h-6 absolute right-0 top-0 mt-8 mr-4"
+                />
+                <div
+                  class="text-red text-sm mt-1 text-right"
+                  *ngIf="email.errors && email.errors['required']"
+                >
+                  Email cannot be empty
+                </div>
+                <div
+                  class="text-red text-sm mt-1 text-right"
+                  *ngIf="email.errors && email.errors['email']"
+                >
+                  Looks like this is not an email
+                </div>
+              </div>
+            </div>
+
+            <div class="relative">
+              <input
+                type="text"
+                class="w-full border border-grayishBlue rounded-lg p-4 focus:outline-none focus:border-blue text-sm mt-4"
+                placeholder="Password"
+                name="password"
+                ngModel
+                required
+                #password="ngModel"
+                minlength="8"
+              />
+              <div
+                *ngIf="password.invalid && (password.dirty || password.touched)"
+              >
+                <img
+                  src="assets/images/error.svg"
+                  alt=""
+                  class="w-6 h-6 absolute right-0 top-0 mt-8 mr-4"
+                />
+                <div
+                  class="text-red text-sm mt-1 text-right"
+                  *ngIf="password.errors && password.errors['required']"
+                >
+                  Password cannot be empty
+                </div>
+                <div
+                  class="text-red text-sm mt-1 text-right"
+                  *ngIf="password.errors && password.errors['minlength']"
+                >
+                  Password must be at least 8 characters
+                </div>
+              </div>
+            </div>
+
             <button
               type="submit"
               class="bg-green hover:bg-blue text-white font-bold py-6 rounded-lg text-sm mt-6"
+              [disabled]="signupForm.invalid"
+              [ngClass]="[
+                signupForm.invalid ? 'cursor-not-allowed' : 'cursor-pointer',
+                signupForm.invalid ? 'opacity-50' : 'opacity-100',
+                signupForm.invalid ? 'hover:bg-green' : 'hover:bg-blue'
+              ]"
             >
               CLAIM YOUR FREE TRIAL
             </button>
